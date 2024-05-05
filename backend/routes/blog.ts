@@ -24,8 +24,6 @@ blogRouter.use("/*", async (c, next) => {
   if (userId) {
     c.set("userId", userId.id);
     await next();
-
-    console.log(userId);
   } else {
     c.status(403);
     return c.json("Unauthorized");
@@ -47,8 +45,6 @@ blogRouter.post("/", async (c) => {
       authorId: context_userId,
     },
   });
-
-  console.log(post);
   return c.json(post.id);
 });
 
@@ -71,18 +67,18 @@ blogRouter.put("/", async (c) => {
 
 // get all posts
 blogRouter.get("/bulk", async (c) => {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env?.DATABASE_URL,
-    }).$extends(withAccelerate());
-    try {
-      // implement pagination (future scope)
-      const posts = await prisma.post.findMany();
-      return c.json(posts);
-    } catch (error) {
-      c.status(411);
-      return c.json(error);
-    }
-  });
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    // implement pagination (future scope)
+    const posts = await prisma.post.findMany();
+    return c.json(posts);
+  } catch (error) {
+    c.status(411);
+    return c.json(error);
+  }
+});
 
 // get single post
 blogRouter.get("/:id", async (c) => {
