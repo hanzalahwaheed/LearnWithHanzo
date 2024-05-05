@@ -69,6 +69,21 @@ blogRouter.put("/", async (c) => {
   return c.json(post.id);
 });
 
+// get all posts
+blogRouter.get("/bulk", async (c) => {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env?.DATABASE_URL,
+    }).$extends(withAccelerate());
+    try {
+      // implement pagination (future scope)
+      const posts = await prisma.post.findMany();
+      return c.json(posts);
+    } catch (error) {
+      c.status(411);
+      return c.json(error);
+    }
+  });
+
 // get single post
 blogRouter.get("/:id", async (c) => {
   const id = c.req.param("id");
@@ -87,19 +102,8 @@ blogRouter.get("/:id", async (c) => {
   }
 });
 
-// get all posts
-blogRouter.get("/bulk", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env?.DATABASE_URL,
-  }).$extends(withAccelerate());
-  try {
-    // implement pagination (future scope)
-    const posts = await prisma.post.findMany();
-    return c.json(posts);
-  } catch (error) {
-    c.status(411);
-    return c.json(error);
-  }
-});
+/*
+Note that getAllPosts endpoint is declared before getSinglePost endpoint to prevent overlap of /:id as /bulk 
+*/
 
 export { blogRouter };
