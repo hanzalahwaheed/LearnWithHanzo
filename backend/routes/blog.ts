@@ -70,15 +70,15 @@ blogRouter.put("/", async (c) => {
 });
 
 // get single post
-blogRouter.get("/", async (c) => {
-  const body = await c.req.json();
+blogRouter.get("/:id", async (c) => {
+  const id = c.req.param("id");
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
 
   try {
     const post = await prisma.post.findFirst({
-      where: { id: body.id },
+      where: { id },
     });
     return c.json(post);
   } catch (error) {
