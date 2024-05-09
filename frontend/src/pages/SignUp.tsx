@@ -24,7 +24,6 @@ const SignUp = () => {
       ...postInputs,
       [name]: value,
     });
-    console.log(postInputs);
   };
 
   const handleClick = async () => {
@@ -38,7 +37,7 @@ const SignUp = () => {
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="h-screen lg:w-1/2 flex items-center justify-center">
-        <div className="flex flex-col p-4">
+        <div className="flex flex-col p-4 w-3/4">
           <Heading content="Create an Account" />
           <br />
           <br />
