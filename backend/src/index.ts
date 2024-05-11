@@ -14,7 +14,7 @@ app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
 
-app.use("/api/*", cors());
+app.use("/*", cors());
 app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 

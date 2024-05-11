@@ -1,12 +1,12 @@
 import { useState, ChangeEvent } from "react";
-import BottomWarning from "../Components/BottomWarning";
-import Heading from "../Components/Heading";
-import Input from "../Components/Input";
-import Quote from "../Components/Quote";
-import SubHeading from "../Components/SubHeading";
+import BottomWarning from "../components/BottomWarning";
+import Heading from "../components/Heading";
+import Input from "../components/Input";
+import Quote from "../components/Quote";
+import SubHeading from "../components/SubHeading";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Button from "../Components/Button";
+import Button from "../components/Button";
 import { SignUpInput } from "@hanzalahwaheed/h2wh-common";
 
 const SignUp = () => {
@@ -27,11 +27,18 @@ const SignUp = () => {
   };
 
   const handleClick = async () => {
-    const response = await axios.post(
-      "http://localhost:8787/api/v1/user/signup",
-      postInputs
-    );
-    if (response) navigate("/blog");
+    try {
+      const response = await axios.post(
+        "http://localhost:8787/api/v1/user/signup",
+        postInputs
+      );
+      const token = response.data;
+      console.log(token);
+      localStorage.setItem("token", token);
+      if (response) navigate("/landing");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
