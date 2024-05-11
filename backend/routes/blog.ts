@@ -15,7 +15,9 @@ const blogRouter = new Hono<{
 }>();
 
 // get all posts
-/* Note that /bul is declared above the middleware to avoid it getting authorised on fetching all blogs */
+/* 
+Note that /bul is declared above the middleware to avoid it getting authorised on fetching all blogs 
+*/
 blogRouter.get("/bulk", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
