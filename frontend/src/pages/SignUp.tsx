@@ -29,7 +29,7 @@ const SignUp = () => {
   const handleClick = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8787/api/v1/user/signup",
+        `${import.meta.env.BASE_URL}/api/v1/user/signup`,
         postInputs
       );
       const token = response.data;

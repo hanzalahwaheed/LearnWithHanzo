@@ -16,10 +16,12 @@ export const useBlogs = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8787/api/v1/blog/bulk").then((response) => {
-      setBlogs(response.data);
-      setLoading(false);
-    });
+    axios
+      .get(`${import.meta.env.BASE_URL}/api/v1/blog/bulk`)
+      .then((response) => {
+        setBlogs(response.data);
+        setLoading(false);
+      });
   }, []);
   return { loading, blogs };
 };
