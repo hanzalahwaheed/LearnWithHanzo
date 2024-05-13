@@ -56,7 +56,7 @@ const Publish = () => {
           </div>
           <textarea
             name="content"
-            rows="15"
+            rows={15}
             placeholder="Write your super cool blog here..."
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             value={postInputs.content}

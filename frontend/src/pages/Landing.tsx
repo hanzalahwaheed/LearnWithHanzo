@@ -9,7 +9,7 @@ const Landing = () => {
   return (
     <>
       <Appbar />
-      <div className="flex flex-col items-center p-10">
+      <div className="flex flex-col items-center p-10 ">
         {blogs.map((blog) => (
           <BlogCard
             id={blog.id}

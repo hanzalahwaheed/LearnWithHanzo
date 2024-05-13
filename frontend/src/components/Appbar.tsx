@@ -8,7 +8,7 @@ const Appbar = () => {
     navigate("/publish");
   };
   return (
-    <nav className="flex justify-between items-center p-4 border-b-2 border-slate-200">
+    <nav className="flex justify-between items-center p-4 border-b-2 border-slate-200 bg-slate-200">
       <Logo />
       <div className="flex gap-4 items-center">
         <button
