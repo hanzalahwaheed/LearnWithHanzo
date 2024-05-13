@@ -4,7 +4,6 @@ import { useBlogs } from "../hooks";
 
 const Landing = () => {
   const { loading, blogs } = useBlogs();
-  console.log(blogs);
   if (loading) return <div>loading</div>;
   return (
     <>

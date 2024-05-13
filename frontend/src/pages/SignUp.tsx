@@ -29,15 +29,14 @@ const SignUp = () => {
   const handleClick = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.BASE_URL}/api/v1/user/signup`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/user/signup`,
         postInputs
       );
       const token = response.data;
-      console.log(token);
       localStorage.setItem("token", token);
       if (response) navigate("/landing");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

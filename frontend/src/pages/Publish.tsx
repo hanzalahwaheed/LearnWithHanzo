@@ -26,13 +26,12 @@ const Publish = () => {
   const handlePublish = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.BASE_URL}/api/v1/blog`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/blog`,
         postInputs,
         {
           headers: { Authorization: localStorage.getItem("token") },
         }
       );
-      console.log("Blog post published successfully:", response.data);
       navigate(`/blog/${response.data}`);
     } catch (error) {
       console.error("Error publishing blog post:", error);

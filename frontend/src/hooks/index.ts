@@ -14,14 +14,13 @@ interface Blog {
 export const useBlogs = () => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const API_LINK = `${import.meta.env.VITE_BASE_URL}/api/v1/blog/bulk`;
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.BASE_URL}/api/v1/blog/bulk`)
-      .then((response) => {
-        setBlogs(response.data);
-        setLoading(false);
-      });
+    axios.get(API_LINK).then((response) => {
+      setBlogs(response.data);
+      setLoading(false);
+    });
   }, []);
   return { loading, blogs };
 };
@@ -32,7 +31,7 @@ export const useBlog = ({ id }: { id: string }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8787/api/v1/blog/${id}`, {
+      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/blog/${id}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
