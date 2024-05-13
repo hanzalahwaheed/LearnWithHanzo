@@ -31,11 +31,14 @@ export const useBlog = ({ id }: { id: string }) => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/blog/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_BASE_URL}/api/v1/blog/${id}`
+        // ,{
+        //   headers: {
+        //     Authorization: localStorage.getItem("token"),
+        //   },
+        // }
+      )
       .then((response) => {
         setBlog(response.data);
         setLoading(false);
