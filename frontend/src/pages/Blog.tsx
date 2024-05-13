@@ -10,7 +10,7 @@ const Blog = () => {
     <>
       <Appbar />
       <div className="flex flex-col lg:flex-row p-6 gap-2">
-        <div className="w-full lg:w-3/4 flex flex-col gap-1">
+        <div className="w-full lg:w-3/4 flex flex-col gap-4">
           <h1 className="text-2xl lg:text-5xl font-bold">{blog?.title}</h1>
           <p className="text-xs">Published Date: {blog?.publishedDate}</p>
           <p>{blog?.content}</p>
