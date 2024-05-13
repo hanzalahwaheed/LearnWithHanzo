@@ -24,7 +24,19 @@ blogRouter.get("/bulk", async (c) => {
   }).$extends(withAccelerate());
   try {
     // implement pagination (future scope)
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     return c.json(posts);
   } catch (error) {
     c.status(411);
@@ -60,13 +72,24 @@ blogRouter.post("/", async (c) => {
   }).$extends(withAccelerate());
 
   const context_userId = c.get("userId");
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
+  const day = currentDate.getDate();
+
+  const publishedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
+
   const post = await prisma.post.create({
     data: {
       title: body.title,
       content: body.content,
       authorId: context_userId,
+      publishedDate: publishedDate,
     },
   });
+
   return c.json(post.id);
 });
 
@@ -103,6 +126,17 @@ blogRouter.get("/:id", async (c) => {
   try {
     const post = await prisma.post.findFirst({
       where: { id },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
     return c.json(post);
   } catch (error) {

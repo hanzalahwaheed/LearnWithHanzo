@@ -10,7 +10,7 @@ const Avatar = ({ content, size }: { content: string; size: string }) => {
           size == "sm" ? "text-sm" : "text-lg"
         } font-medium text-gray-300`}
       >
-        {content[0]}
+        {content[0].toUpperCase()}
       </span>
     </div>
   );
