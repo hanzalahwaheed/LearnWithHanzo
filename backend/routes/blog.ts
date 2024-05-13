@@ -44,6 +44,39 @@ blogRouter.get("/bulk", async (c) => {
   }
 });
 
+/*
+Note that getAllPosts endpoint is declared before getSinglePost endpoint to prevent overlap of /:id as /bulk 
+*/
+
+// get single post
+blogRouter.get("/:id", async (c) => {
+  const id = c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const post = await prisma.post.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return c.json(post);
+  } catch (error) {
+    c.status(411);
+    return c.json(error);
+  }
+});
+
 // auth middleware
 blogRouter.use("/*", async (c, next) => {
   try {
@@ -115,38 +148,5 @@ blogRouter.put("/", async (c) => {
   });
   return c.json(post.id);
 });
-
-// get single post
-blogRouter.get("/:id", async (c) => {
-  const id = c.req.param("id");
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env?.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    const post = await prisma.post.findFirst({
-      where: { id },
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        publishedDate: true,
-        author: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-    return c.json(post);
-  } catch (error) {
-    c.status(411);
-    return c.json(error);
-  }
-});
-
-/*
-Note that getAllPosts endpoint is declared before getSinglePost endpoint to prevent overlap of /:id as /bulk 
-*/
 
 export { blogRouter };
