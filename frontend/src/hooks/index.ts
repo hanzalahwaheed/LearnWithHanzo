@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { authState } from "../atoms/auth";
 
 interface Blog {
   id: string;
@@ -48,29 +50,31 @@ export const useBlog = ({ id }: { id: string }) => {
 };
 
 export const useAuth = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState("");
+  const [auth, setAuth] = useRecoilState(authState);
   const API_LINK = `${import.meta.env.VITE_BASE_URL}/api/v1/user/me`;
 
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
-    axios
-      .get(API_LINK, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        if (response.data.status) {
-          setIsAuth(true);
-          setUser(response.data.user.name);
-        }
-      })
-      .catch((error) => {
-        console.error("Authentication error:", error);
-      });
-  }, [token]);
+    const token = localStorage.getItem("token");
+    if (token && !auth.isAuth) {
+      axios
+        .get(API_LINK, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          if (response.data.status) {
+            setAuth({
+              isAuth: true,
+              userName: response.data.user.name,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Authentication error:", error);
+        });
+    }
+  }, [auth.isAuth, setAuth]);
 
-  return { isAuth, userName: user };
+  return auth;
 };

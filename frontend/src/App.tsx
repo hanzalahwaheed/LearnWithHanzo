@@ -8,17 +8,17 @@ import Publish from "./pages/Publish";
 
 function App() {
   return (
-    <div className="font-ubunutSansMono">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/blog/:id" element={<Blog />} />
-          <Route path="/publish" element={<Publish />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+      <div className="font-ubunutSansMono">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/blog/:id" element={<Blog />} />
+            <Route path="/publish" element={<Publish />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
   );
 }
 

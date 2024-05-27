@@ -16,9 +16,6 @@ const userRouter = new Hono<{
 }>();
 
 userRouter.get("/me", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
   try {
     const token = c.req.header("authorization") || "";
     if (!token) return c.json({ status: false, message: "unauthorized" });
