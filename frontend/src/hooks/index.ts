@@ -20,7 +20,8 @@ export const useBlogs = () => {
 
   useEffect(() => {
     axios.get(API_LINK).then((response) => {
-      setBlogs(response.data);
+      const reversedBlogs = response.data.reverse();
+      setBlogs(reversedBlogs);
       setLoading(false);
     });
   }, []);
