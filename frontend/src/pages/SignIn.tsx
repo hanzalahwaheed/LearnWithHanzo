@@ -32,7 +32,7 @@ const SignIn = () => {
       );
       const token = response.data.token;
       localStorage.setItem("token", token);
-      if (response) navigate("/landing");
+      if (response) navigate("/");
     } catch (error) {
       console.error(error);
     }

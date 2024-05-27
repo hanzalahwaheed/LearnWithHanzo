@@ -10,7 +10,7 @@ const blogRouter = new Hono<{
     JWT_SECRET: string;
   };
   Variables: {
-    userId: string;
+    user: { id: string; name: string };
   };
 }>();
 
@@ -81,8 +81,8 @@ blogRouter.get("/:id", async (c) => {
 blogRouter.use("/*", async (c, next) => {
   try {
     const token = c.req.header("authorization") || "";
-    const userId = await verify(token, c.env.JWT_SECRET);
-    c.set("userId", userId.id);
+    const user = await verify(token, c.env.JWT_SECRET);
+    c.set("user", user);
     await next();
   } catch (error) {
     c.status(403);
