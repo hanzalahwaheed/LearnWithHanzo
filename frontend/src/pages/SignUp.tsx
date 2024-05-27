@@ -34,7 +34,7 @@ const SignUp = () => {
       );
       const token = response.data;
       localStorage.setItem("token", token);
-      if (response) navigate("/");
+      if (response) navigate("/signin");
     } catch (error) {
       console.error(error);
     }
