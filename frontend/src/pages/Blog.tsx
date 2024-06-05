@@ -1,12 +1,19 @@
 import { useBlog } from "../hooks";
 import { useParams } from "react-router-dom";
 import Appbar from "../components/Appbar";
+import BlogPageSkeleton from "../components/BlogPageSkeleton";
 
 const Blog = () => {
   const { id } = useParams();
   const { loading, blog } = useBlog({ id: id || "" });
 
-  if (loading) return <>loading...</>;
+  if (loading)
+    return (
+      <>
+        <Appbar />
+        <BlogPageSkeleton />
+      </>
+    );
 
   return (
     <>
