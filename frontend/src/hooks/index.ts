@@ -3,6 +3,9 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { authState } from "../atoms/auth";
 
+const API_LINK_ALL_BLOGS = `${import.meta.env.VITE_BASE_URL}/api/v1/blog/bulk`;
+const API_LINK_AUTH = `${import.meta.env.VITE_BASE_URL}/api/v1/user/me`;
+
 interface Blog {
   id: string;
   title: string;
@@ -16,10 +19,9 @@ interface Blog {
 export const useBlogs = () => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const API_LINK = `${import.meta.env.VITE_BASE_URL}/api/v1/blog/bulk`;
 
   useEffect(() => {
-    axios.get(API_LINK).then((response) => {
+    axios.get(API_LINK_ALL_BLOGS).then((response) => {
       const reversedBlogs = response.data.reverse();
       setBlogs(reversedBlogs);
       setLoading(false);
@@ -52,13 +54,12 @@ export const useBlog = ({ id }: { id: string }) => {
 
 export const useAuth = () => {
   const [auth, setAuth] = useRecoilState(authState);
-  const API_LINK = `${import.meta.env.VITE_BASE_URL}/api/v1/user/me`;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !auth.isAuth) {
       axios
-        .get(API_LINK, {
+        .get(API_LINK_AUTH, {
           headers: {
             Authorization: token,
           },
