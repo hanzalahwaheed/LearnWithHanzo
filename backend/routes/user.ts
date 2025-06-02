@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { signUpInput, signInInput } from "@hanzalahwaheed/h2wh-common";
 import { verify } from "hono/jwt";
+import { JWTPayload } from "hono/utils/jwt/types";
 
 const userRouter = new Hono<{
   Bindings: {
@@ -11,7 +12,7 @@ const userRouter = new Hono<{
     JWT_SECRET: string;
   };
   Variables: {
-    user: { id: string; name: string };
+    user: { id: string; name: string } | JWTPayload;
   };
 }>();
 
@@ -63,7 +64,7 @@ userRouter.post("/signup", async (c) => {
     );
     return c.json({ token });
   } catch (error) {
-    return c.json(error);
+    return c.json({ error });
   }
 });
 

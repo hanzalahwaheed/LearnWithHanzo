@@ -3,6 +3,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { createBlogInput, updateBlogInput } from "@hanzalahwaheed/h2wh-common";
+import { JWTPayload } from "hono/utils/jwt/types";
 
 const blogRouter = new Hono<{
   Bindings: {
@@ -10,7 +11,7 @@ const blogRouter = new Hono<{
     JWT_SECRET: string;
   };
   Variables: {
-    user: { id: string; name: string };
+    user: { id: string; name: string } | JWTPayload;
   };
 }>();
 
@@ -39,8 +40,8 @@ blogRouter.get("/bulk", async (c) => {
     });
     return c.json(posts);
   } catch (error) {
-    c.status(411);
-    return c.json(error);
+    c.status(500);
+    return c.json({ error });
   }
 });
 
@@ -72,8 +73,8 @@ blogRouter.get("/:id", async (c) => {
     });
     return c.json(post);
   } catch (error) {
-    c.status(411);
-    return c.json(error);
+    c.status(500);
+    return c.json({ error });
   }
 });
 
